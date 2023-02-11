@@ -1,0 +1,24 @@
+html {
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(32, 1fr);
+  grid-template-rows: repeat(32, 1fr);
+  margin: 0;
+  padding: 0;
+  height: 450px;
+  width: 450px;
+  background-color: rgb(177, 177, 177);
+}
+
+.grid-item {
+  margin: 1px;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
