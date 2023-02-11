@@ -8,13 +8,12 @@ html {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(32, 1fr);
-  grid-template-rows: repeat(32, 1fr);
   margin: 0;
   padding: 0;
   height: 450px;
   width: 450px;
   background-color: rgb(177, 177, 177);
+  border: 1px solid black;
 }
 
 .grid-item {
