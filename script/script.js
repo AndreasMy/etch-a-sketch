@@ -7,16 +7,25 @@ function calcNumberOfItems(x) {
 
   //? inline generation of css code using the rows value
   getGridContainer.style = ` 
-   grid-template-columns: repeat(${rows}, 1fr);
-   grid-template-rows: repeat(${rows}, 1fr);
-   `;
+  grid-template-columns: repeat(${rows}, 1fr);
+  grid-template-rows: repeat(${rows}, 1fr);
+  `;
 
   //? then loop the generation of items
   for (let i = 1; i <= numberOfItems; i++) {
     let gridItem = document.createElement("div");
-    gridItem.className = "grid-item";
+    gridItem.className = `grid-item${[i]} grid-item`;
     getGridContainer.appendChild(gridItem);
   }
 }
 
-calcNumberOfItems(3);
+calcNumberOfItems(16);
+
+//? querySelectorAll works well with for...of
+let squares = document.querySelectorAll(".grid-item");
+
+for (let square of squares) {
+  square.addEventListener("mouseover", function () {
+    square.style.backgroundColor = "black";
+  });
+}
