@@ -12,12 +12,11 @@ html {
   padding: 0;
   height: 450px;
   width: 450px;
-  background-color: rgb(177, 177, 177);
+  background-color: rgb(2, 0, 148);
   border: 1px solid black;
 }
 
 .grid-item {
   margin: 1px;
-  color: rgb(0, 0, 0);
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(195, 214, 194);
 }
