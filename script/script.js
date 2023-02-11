@@ -1,9 +1,9 @@
 const getGridContainer = document.querySelector("#gridContainer");
 
-function calcNumberOfItems(x) {
-  //const x = parseInt(prompt(Number, 3));
-  const numberOfItems = x * x;
-  const rows = numberOfItems / x;
+function calcNumberOfItems(amount) {
+  //const amount = parseInt(prompt(Number, 3));
+  let numberOfItems = amount * amount;
+  const rows = numberOfItems / amount;
 
   //? inline generation of css code using the rows value
   getGridContainer.style = ` 
@@ -18,10 +18,24 @@ function calcNumberOfItems(x) {
     getGridContainer.appendChild(gridItem);
   }
 }
+calcNumberOfItems(100);
 
-//todo implement a slider that effects a variable with value 0 - 100
-//todo pass that variable as an argument and assign function to button
-calcNumberOfItems(64);
+//? Slider
+let slider = document.querySelector("#tileSlider");
+let sliderOutput = document.querySelector("#sliderValue");
+sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
+
+//! Slider is still buggy
+function handleSliderInput() {
+  sliderOutput.innerHTML = `${this.value} x ${this.value}`;
+}
+
+slider.oninput = handleSliderInput;
+slider.onmouseup = function() {
+  reset()
+  calcNumberOfItems(slider.value);
+}
+
 
 function reset() {
   let squares = document.querySelectorAll(".grid-item");
@@ -31,7 +45,7 @@ function reset() {
   }
 }
 
-//? querySelectorAll works well with for...of
+//? querySelectorAll works well with for...of and foreach
 function colorBlack() {
   let squares = document.querySelectorAll(".grid-item");
 
