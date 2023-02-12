@@ -1,7 +1,9 @@
 const getGridContainer = document.querySelector("#gridContainer");
+let slider = document.querySelector("#tileSlider");
+let sliderOutput = document.querySelector("#sliderValue");
+sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
 
 function calcNumberOfItems(amount) {
-  //const amount = parseInt(prompt(Number, 3));
   let numberOfItems = amount * amount;
   const rows = numberOfItems / amount;
 
@@ -12,6 +14,7 @@ function calcNumberOfItems(amount) {
   `;
 
   //? then loop the generation of items
+  //? css border should probably be generated here to avoid bugs
   for (let i = 1; i <= numberOfItems; i++) {
     let gridItem = document.createElement("div");
     gridItem.className = `grid-item${[i]} grid-item`;
@@ -21,22 +24,17 @@ function calcNumberOfItems(amount) {
 calcNumberOfItems(100);
 
 //? Slider
-let slider = document.querySelector("#tileSlider");
-let sliderOutput = document.querySelector("#sliderValue");
-sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
-
 //! Slider is still buggy
-function handleSliderInput() {
-  sliderOutput.innerHTML = `${this.value} x ${this.value}`;
-}
+slider.oninput = function () {
+  sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
+};
 
-slider.oninput = handleSliderInput;
-slider.onmouseup = function() {
-  reset()
+slider.onmouseup = function () {
+  reset();
   calcNumberOfItems(slider.value);
-}
+};
 
-
+//! see if you can shorten the code with foreach
 function reset() {
   let squares = document.querySelectorAll(".grid-item");
 
@@ -45,7 +43,7 @@ function reset() {
   }
 }
 
-//? querySelectorAll works well with for...of and foreach
+//? querySelectorAll works with for...of and foreach
 function colorBlack() {
   let squares = document.querySelectorAll(".grid-item");
 
@@ -56,8 +54,41 @@ function colorBlack() {
   }
 }
 
-colorBlack();
+//! Logic is buggy
+//? this didn't accomplish the original challenge of darkening ANY color it passes over
+function colorGrey() {
+  let squares = document.querySelectorAll(".grid-item");
 
+  for (let square of squares) {
+    square.addEventListener("mouseover", function () {
+      let cssObj = window.getComputedStyle(square, null);
+      let bgColor = cssObj.getPropertyValue("background-color");
+
+      console.log(typeof bgColor, bgColor);
+      if (bgColor === "rgb(255, 255, 255)") {
+        square.style.backgroundColor = "#E0E0E0";
+      } else if (bgColor === "rgb(224, 224, 224)") {
+        square.style.backgroundColor = "#C0C0C0";
+      } else if (bgColor === "rgb(192, 192, 192)") {
+        square.style.backgroundColor = "#A0A0A0";
+      } else if (bgColor === "rgb(160, 160, 160)") {
+        square.style.backgroundColor = "#808080";
+      } else if (bgColor === "rgb(128, 128, 128)") {
+        square.style.backgroundColor = "#606060";
+      } else if (bgColor === "rgb(96, 96, 96)") {
+        square.style.backgroundColor = "#404040";
+      } else if (bgColor === "rgb(64, 64, 64)") {
+        square.style.backgroundColor = "#202020";
+      } else if (bgColor === "rgb(32, 32, 32)") {
+        square.style.backgroundColor = "#000000";
+      } else {
+        square.style.backgroundColor = "#E0E0E0";
+      }
+    });
+  }
+}
+
+//? generate random rgb values
 function getRandomNum() {
   return Math.floor(Math.random() * 256);
 }
@@ -75,3 +106,5 @@ function getRandomRgb() {
     });
   }
 }
+
+//TODO
