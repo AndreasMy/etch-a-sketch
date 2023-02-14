@@ -45,39 +45,41 @@ function reset() {
 
 //? querySelectorAll works with for...of and foreach
 function colorBlack() {
-  let squares = document.querySelectorAll(".grid-item");
+  let blackSquares = document.querySelectorAll(".grid-item");
 
-  for (let square of squares) {
-    square.addEventListener("mouseover", function () {
-      square.style.backgroundColor = "black";
+  for (let blackSquare of blackSquares) {
+    blackSquare.addEventListener("mouseover", function () {
+      blackSquare.style.backgroundColor = "black";
     });
   }
 }
 
 //! Logic is buggy
-//? this didn't accomplish the original challenge of darkening ANY color it passes over
-//? subtract 10% from each number and assign them to their respective variables
-//? make sure numbers don't go below 0
+//! should read any color and darken it!
 function colorGrey() {
   let squares = document.querySelectorAll(".grid-item");
-  colorArr = [];
+  let rgbValue = document.querySelector("#rgbValue");
+  let newRgbValue = document.querySelector("#newRgbValue");
 
   for (let square of squares) {
+
     square.addEventListener("mouseover", function () {
       let cssObj = window.getComputedStyle(square, null);
       let bgColor = cssObj.getPropertyValue("background-color");
 
+
       //? .match was suggested by chatGpt :(
       let numFromString = bgColor.match(/\d+/g).map(Number);
-      console.log(numFromString);
-
-      //! used map() example provided by chatGpt, only to realize the same syntax is at mdn
       let newRgb = numFromString.map((value) => value * 0.9);
-      console.log(newRgb);
+      
+      rgbValue.innerHTML = `${numFromString}`
+      newRgbValue.innerHTML = `${newRgb}`
 
-      //colorArr.push(numFromString);
-
+      
       square.style.backgroundColor = `rgb(${newRgb})`;
+ 
+      
+      //colorArr.push(numFromString);
     });
   }
 }
