@@ -3,7 +3,7 @@ let slider = document.querySelector("#tileSlider");
 let sliderOutput = document.querySelector("#sliderValue");
 sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
 
-function calcNumberOfItems(amount) {
+function createGrid(amount) {
   let numberOfItems = amount * amount;
   const rows = numberOfItems / amount;
 
@@ -15,12 +15,11 @@ function calcNumberOfItems(amount) {
 
   for (let i = 1; i <= numberOfItems; i++) {
     let gridItem = document.createElement("div");
-    gridItem.setAttribute("id", "gridItem");
     gridItem.className = `grid-item`;
     getGridContainer.appendChild(gridItem);
   }
 }
-calcNumberOfItems(16);
+createGrid(16);
 
 //? function to remove each element
 function rmElement() {
@@ -32,7 +31,6 @@ function rmElement() {
 
 function reset() {
   let squares = document.querySelectorAll(".grid-item");
-
   for (let square of squares) {
     square.style.backgroundColor = "white";
   }
@@ -44,7 +42,7 @@ slider.oninput = function () {
 
 slider.onmouseup = function () {
   rmElement();
-  calcNumberOfItems(slider.value);
+  createGrid(slider.value);
 };
 
 //! see if you can shorten the code with foreach
@@ -80,7 +78,7 @@ function getRandomRgb() {
 //! should read any color and darken it!
 //? try changing value on mouse out!
 function colorGrey() {
-  let squares = document.querySelectorAll("#gridItem");
+  let squares = document.querySelectorAll(".grid-item");
   let rgbValue = document.querySelector("#rgbValue");
   let newRgbValue = document.querySelector("#newRgbValue");
 
@@ -90,7 +88,7 @@ function colorGrey() {
       let bgColor = cssObj.getPropertyValue("background-color");
 
       let numFromString = bgColor.match(/\d+/g).map(Number);
-      let newRgb = numFromString.map((value) => value * 0.9);
+      let newRgb = numFromString.map((value) => (value * 0.9).toFixed(0));
 
       rgbValue.innerHTML = `${numFromString}`;
       newRgbValue.innerHTML = `${newRgb}`;
