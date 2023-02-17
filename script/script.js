@@ -1,18 +1,81 @@
 const getGridContainer = document.querySelector("#gridContainer");
+
+//? Slider
 let slider = document.querySelector("#tileSlider");
 let sliderOutput = document.querySelector("#sliderValue");
 sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
 
+//? buttons:
+colorResetBtn = document.querySelector("#colorResetBtn");
+colorBlackBtn = document.querySelector("#colorBlackBtn");
+colorShadingBtn = document.querySelector("#colorShadingBtn");
+colorRainbowBtn = document.querySelector("#colorRainbowBtn");
+
+colorResetBtn.addEventListener("click", reset);
+
+//? Draw Black
+colorBlackBtn.addEventListener("click", function () {
+  drawBlack();
+});
+
+//? Draw Shading
+colorShadingBtn.addEventListener("click", function () {
+  drawShade();
+});
+
+//? Draw rainbow
+colorRainbowBtn.addEventListener("click", function () {
+  drawRandomRgb();
+});
+
+function drawBlack() {
+  for (let i = 0; i < getGridContainer.children.length; i++) {
+    getGridContainer.children[i].addEventListener("mouseover", function () {
+      this.style.backgroundColor = `rgb(0, 0, 0)`;
+    });
+  }
+}
+
+function drawRandomRgb() {
+  for (let i = 0; i < getGridContainer.children.length; i++) {
+    getGridContainer.children[i].addEventListener("mouseover", function () {
+      let randomColor = `rgb(${Math.floor(Math.random() * 255)}, 
+                             ${Math.floor(Math.random() * 255)}, 
+                             ${Math.floor(Math.random() * 255)})`;
+      this.style.backgroundColor = randomColor;
+    });
+  }
+}
+
+function drawShade() {
+  for (let i = 0; i < getGridContainer.children.length; i++) {
+    getGridContainer.children[i].addEventListener("mouseover", function () {
+      let cssObj = window.getComputedStyle(this, null);
+      let bgColor = cssObj.getPropertyValue("background-color");
+
+      let numFromString = bgColor.match(/\d+/g).map(Number);
+      let newRgb = numFromString.map((value) => (value * 0.9).toFixed(0));
+
+      rgbValue.innerHTML = `${numFromString}`;
+      newRgbValue.innerHTML = `${newRgb}`;
+
+      this.style.backgroundColor = `rgb(${newRgb})`;
+    });
+  }
+}
+ 
+
+
 function createGrid(amount) {
   let numberOfItems = amount * amount;
   const rows = numberOfItems / amount;
-
+  
   //? inline generation of css code using the rows value
   getGridContainer.style = ` 
   grid-template-columns: repeat(${rows}, 1fr);
   grid-template-rows: repeat(${rows}, 1fr);
   `;
-
+  
   for (let i = 1; i <= numberOfItems; i++) {
     let gridItem = document.createElement("div");
     gridItem.className = `grid-item`;
@@ -36,6 +99,7 @@ function reset() {
   }
 }
 
+//? Slider
 slider.oninput = function () {
   sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
 };
@@ -45,39 +109,10 @@ slider.onmouseup = function () {
   createGrid(slider.value);
 };
 
-//! see if you can shorten the code with foreach
-function colorBlack() {
-  let blackSquares = document.querySelectorAll(".grid-item");
-
-  for (let blackSquare of blackSquares) {
-    blackSquare.addEventListener("mouseover", function () {
-      blackSquare.style.backgroundColor = "rgb(0, 0, 0)";
-    });
-  }
-}
-
-//? generate random rgb values
-function getRandomNum() {
-  return Math.floor(Math.random() * 256);
-}
-
-function getRandomRgb() {
-  let colorSquares = document.querySelectorAll(".grid-item");
-
-  for (let colorSquare of colorSquares) {
-    let r = getRandomNum();
-    let g = getRandomNum();
-    let b = getRandomNum();
-
-    colorSquare.addEventListener("mouseover", function () {
-      colorSquare.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-    });
-  }
-}
-
 //! should read any color and darken it!
 //? try changing value on mouse out!
-function colorGrey() {
+/* function colorGrey() {
+
   let squares = document.querySelectorAll(".grid-item");
   let rgbValue = document.querySelector("#rgbValue");
   let newRgbValue = document.querySelector("#newRgbValue");
@@ -96,5 +131,5 @@ function colorGrey() {
       square.style.backgroundColor = `rgb(${newRgb})`;
     });
   }
-}
+} */
 //TODO
