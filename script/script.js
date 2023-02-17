@@ -29,16 +29,24 @@ colorRainbowBtn.addEventListener("click", function () {
 });
 
 function drawBlack() {
-  for (let i = 0; i < getGridContainer.children.length; i++) {
-    getGridContainer.children[i].addEventListener("mouseover", function () {
-      this.style.backgroundColor = `rgb(0, 0, 0)`;
+  const blackGridContainer = document.querySelector("#gridContainer");
+  for (let i = 0; i < blackGridContainer.children.length; i++) {
+    blackGridContainer.children[i].addEventListener("mouseover", function () {
+      this.style.backgroundColor = `red`;
+    });
+    blackGridContainer.children[i].addEventListener("mouseleave", function () {
+      this.style.backgroundColor = `black`;
     });
   }
 }
 
 function drawRandomRgb() {
+  const rgbGridContainer = document.querySelector("#gridContainer");
   for (let i = 0; i < getGridContainer.children.length; i++) {
-    getGridContainer.children[i].addEventListener("mouseover", function () {
+    rgbGridContainer.children[i].addEventListener("mouseover", function () {
+      this.style.backgroundColor = `red`;
+    });
+    rgbGridContainer.children[i].addEventListener("mouseleave", function () {
       let randomColor = `rgb(${Math.floor(Math.random() * 255)}, 
                              ${Math.floor(Math.random() * 255)}, 
                              ${Math.floor(Math.random() * 255)})`;
@@ -48,34 +56,38 @@ function drawRandomRgb() {
 }
 
 function drawShade() {
-  for (let i = 0; i < getGridContainer.children.length; i++) {
-    getGridContainer.children[i].addEventListener("mouseover", function () {
+  const shadeGridContainer = document.querySelector("#gridContainer");
+  let newRgb;
+
+  for (let i = 0; i < shadeGridContainer.children.length; i++) {
+    shadeGridContainer.children[i].addEventListener("mouseover", function () {
       let cssObj = window.getComputedStyle(this, null);
       let bgColor = cssObj.getPropertyValue("background-color");
-
       let numFromString = bgColor.match(/\d+/g).map(Number);
-      let newRgb = numFromString.map((value) => (value * 0.9).toFixed(0));
+      newRgb = numFromString.map((value) => (value * 0.9).toFixed(0));
 
       rgbValue.innerHTML = `${numFromString}`;
       newRgbValue.innerHTML = `${newRgb}`;
-
       this.style.backgroundColor = `rgb(${newRgb})`;
+
     });
+    shadeGridContainer.children[i].addEventListener("mouseleave", function () {
+      this.style.backgroundColor = `rgb(${newRgb})`;
+    })
   }
 }
- 
 
 
 function createGrid(amount) {
   let numberOfItems = amount * amount;
   const rows = numberOfItems / amount;
-  
+
   //? inline generation of css code using the rows value
   getGridContainer.style = ` 
   grid-template-columns: repeat(${rows}, 1fr);
   grid-template-rows: repeat(${rows}, 1fr);
   `;
-  
+
   for (let i = 1; i <= numberOfItems; i++) {
     let gridItem = document.createElement("div");
     gridItem.className = `grid-item`;
@@ -108,28 +120,3 @@ slider.onmouseup = function () {
   rmElement();
   createGrid(slider.value);
 };
-
-//! should read any color and darken it!
-//? try changing value on mouse out!
-/* function colorGrey() {
-
-  let squares = document.querySelectorAll(".grid-item");
-  let rgbValue = document.querySelector("#rgbValue");
-  let newRgbValue = document.querySelector("#newRgbValue");
-
-  for (let square of squares) {
-    square.addEventListener("mouseover", function () {
-      let cssObj = window.getComputedStyle(square, null);
-      let bgColor = cssObj.getPropertyValue("background-color");
-
-      let numFromString = bgColor.match(/\d+/g).map(Number);
-      let newRgb = numFromString.map((value) => (value * 0.9).toFixed(0));
-
-      rgbValue.innerHTML = `${numFromString}`;
-      newRgbValue.innerHTML = `${newRgb}`;
-
-      square.style.backgroundColor = `rgb(${newRgb})`;
-    });
-  }
-} */
-//TODO
