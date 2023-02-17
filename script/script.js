@@ -13,28 +13,23 @@ function calcNumberOfItems(amount) {
   grid-template-rows: repeat(${rows}, 1fr);
   `;
 
-  //? then loop the generation of items
-  //? css border should probably be generated here to avoid bugs
   for (let i = 1; i <= numberOfItems; i++) {
     let gridItem = document.createElement("div");
-    gridItem.className = `grid-item${[i]} grid-item`;
+    gridItem.setAttribute("id", "gridItem");
+    gridItem.className = `grid-item`;
     getGridContainer.appendChild(gridItem);
   }
 }
-calcNumberOfItems(100);
+calcNumberOfItems(16);
 
-//? Slider
-//! Slider is still buggy
-slider.oninput = function () {
-  sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
-};
+//? function to remove each element
+function rmElement() {
+  const rmElements = document.querySelectorAll(".grid-item");
+  for (let rmElement of rmElements) {
+    rmElement.remove();
+  }
+}
 
-slider.onmouseup = function () {
-  reset();
-  calcNumberOfItems(slider.value);
-};
-
-//! see if you can shorten the code with foreach
 function reset() {
   let squares = document.querySelectorAll(".grid-item");
 
@@ -43,43 +38,22 @@ function reset() {
   }
 }
 
-//? querySelectorAll works with for...of and foreach
+slider.oninput = function () {
+  sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
+};
+
+slider.onmouseup = function () {
+  rmElement();
+  calcNumberOfItems(slider.value);
+};
+
+//! see if you can shorten the code with foreach
 function colorBlack() {
   let blackSquares = document.querySelectorAll(".grid-item");
 
   for (let blackSquare of blackSquares) {
     blackSquare.addEventListener("mouseover", function () {
-      blackSquare.style.backgroundColor = "black";
-    });
-  }
-}
-
-//! Logic is buggy
-//! should read any color and darken it!
-function colorGrey() {
-  let squares = document.querySelectorAll(".grid-item");
-  let rgbValue = document.querySelector("#rgbValue");
-  let newRgbValue = document.querySelector("#newRgbValue");
-
-  for (let square of squares) {
-
-    square.addEventListener("mouseover", function () {
-      let cssObj = window.getComputedStyle(square, null);
-      let bgColor = cssObj.getPropertyValue("background-color");
-
-
-      //? .match was suggested by chatGpt :(
-      let numFromString = bgColor.match(/\d+/g).map(Number);
-      let newRgb = numFromString.map((value) => value * 0.9);
-      
-      rgbValue.innerHTML = `${numFromString}`
-      newRgbValue.innerHTML = `${newRgb}`
-
-      
-      square.style.backgroundColor = `rgb(${newRgb})`;
- 
-      
-      //colorArr.push(numFromString);
+      blackSquare.style.backgroundColor = "rgb(0, 0, 0)";
     });
   }
 }
@@ -103,4 +77,26 @@ function getRandomRgb() {
   }
 }
 
+//! should read any color and darken it!
+//? try changing value on mouse out!
+function colorGrey() {
+  let squares = document.querySelectorAll("#gridItem");
+  let rgbValue = document.querySelector("#rgbValue");
+  let newRgbValue = document.querySelector("#newRgbValue");
+
+  for (let square of squares) {
+    square.addEventListener("mouseover", function () {
+      let cssObj = window.getComputedStyle(square, null);
+      let bgColor = cssObj.getPropertyValue("background-color");
+
+      let numFromString = bgColor.match(/\d+/g).map(Number);
+      let newRgb = numFromString.map((value) => value * 0.9);
+
+      rgbValue.innerHTML = `${numFromString}`;
+      newRgbValue.innerHTML = `${newRgb}`;
+
+      square.style.backgroundColor = `rgb(${newRgb})`;
+    });
+  }
+}
 //TODO

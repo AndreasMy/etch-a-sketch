@@ -16,7 +16,10 @@ html {
   border: 1px solid black;
 }
 
-.grid-item {
+.grid-item,
+.black-item,
+.rainbow-item,
+.darken-item {
+/*   border: solid grey 1px; */
   background-color: white;
 }
-
