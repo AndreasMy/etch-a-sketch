@@ -13,7 +13,7 @@ const colorRainbowBtn = document.querySelector("#colorRainbowBtn");
 const colorEraserBtn = document.querySelector("#colorEraserBtn");
 const toggleGrid = document.querySelector("#toggleGrid");
 
-//! create global variable
+//! global variables used in if statements
 let coloringMode = "";
 let toggle = "grid on";
 
@@ -44,12 +44,12 @@ colorEraserBtn.addEventListener("click", function () {
 toggleGrid.addEventListener("click", function () {
   if (toggle === "grid on") {
     toggle = "grid off";
-    setGridToggle()
+    setGridToggle();
   } else if (toggle === "grid off") {
     toggle = "grid on";
-    setGridToggle()
+    setGridToggle();
   }
-  console.log(toggle)
+
   return toggle;
 });
 
@@ -89,8 +89,6 @@ function createGrid(amount) {
       } else if (coloringMode === "eraser") {
         this.style.backgroundColor = "white";
       }
-
-
     });
   }
 }
@@ -100,12 +98,11 @@ createGrid(16);
 function setGridToggle() {
   let squares = document.querySelectorAll(".grid-item");
   for (let square of squares)
-  if (toggle === "grid on") {
-    square.style.border = "solid rgb(224, 224, 224) 1px"
-  } else if (toggle === "grid off") {
-    square.style.border = "solid rgb(224, 224, 224) 0"
-  }
-  console.log(toggle)
+    if (toggle === "grid on") {
+      square.style.border = "solid rgb(224, 224, 224) 1px";
+    } else if (toggle === "grid off") {
+      square.style.border = "solid rgb(224, 224, 224) 0";
+    }
 }
 
 //? function to remove each element
@@ -125,15 +122,11 @@ function reset() {
 
 //? Slider
 slider.oninput = function () {
-  sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
-};
-
-slider.onmouseup = function () {
   rmElement();
   toggle = "grid on";
   createGrid(slider.value);
+  sliderOutput.innerHTML = `${slider.value} x ${slider.value}`;
 };
-
 
 //TODO customize slider color
 //TODO make it pretty
